@@ -4,6 +4,6 @@ public class LinkedList
 {
 	public LinkedList()
 	{
-		//to-do
+		// test
 	}
 }
