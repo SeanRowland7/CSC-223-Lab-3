@@ -1,4 +1,5 @@
-package utilities.math;
+
+package utilities;
 
 public class LinkedList <T>
 {
