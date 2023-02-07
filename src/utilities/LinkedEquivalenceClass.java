@@ -1,6 +1,6 @@
 package utilities;
 
-public class LinkedEquivalenceClass 
+public class LinkedEquivalenceClass<T> 
 {
 
 }
