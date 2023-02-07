@@ -1,4 +1,4 @@
-package utilities.math;
+package utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
