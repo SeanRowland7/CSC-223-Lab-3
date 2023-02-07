@@ -45,18 +45,42 @@ public class LinkedList <T>
 		return _size;
 	}
 
-	public void addToFront(T target)
-	{
-		Node n = new Node(target, _head._next);
-
-		Node current = _head;
-
-		n._next = current._next;
-
-		current._next = n;
+//	public void addToFront(T target)
+//	{
+//		Node n = new Node(target, _head._next);
+//
+//		Node current = _head;
+//
+//		n._next = _head._next;
+//
+//		current._next = n;
+//		
+//		_size++;
+//	}
+//	
+	public void addToFront(T target) {
+		
+		insert(target, _head);
+		
+	}
+	
+	public void addToBack(T target) {
+		
+		insert(target, this.previous(_tail));
+		
+	}
+	
+	private void insert(T target, Node n) {
+		
+		Node node = new Node(target, n._next);
+		
+		n._next = node;
 		
 		_size++;
+		
 	}
+	
+
 	
 	
 	
