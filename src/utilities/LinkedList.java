@@ -77,12 +77,12 @@ public class LinkedList <T>
 
 		return contains(target, n._next);
 	}
-	
+
 	private Node previous(T target)
 	{
 		return previous(target,_head);
 	}
-	
+
 	private Node previous(T target, Node n)
 	{
 		if(n._next == _tail)
@@ -93,9 +93,28 @@ public class LinkedList <T>
 		{
 			return n;
 		}
-		
+
 		return previous(target, n._next);
-		
+
+	}
+
+	public boolean remove(T target)
+	{
+		Node previous = _head;
+		while(previous._next != _tail)
+		{
+			if(previous._next._data.equals(target))
+			{
+				previous._next = previous._next._next;
+				return true;
+			}
+
+			previous = previous._next;
+
+
+			_size--;
+		}
+		return false;
 	}
 
 
@@ -111,11 +130,12 @@ public class LinkedList <T>
 		}
 		return result;	
 	}
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
