@@ -66,7 +66,7 @@ public class LinkedList <T>
 	
 	public void addToBack(T target) {
 		
-		insert(target, this.previous(_tail));
+		insert(target, previous(null));
 		
 	}
 	
@@ -79,12 +79,64 @@ public class LinkedList <T>
 		_size++;
 		
 	}
-	
 
+	public boolean contains(T target)
+	{
+		return contains(target,_head._next);
+	}
+
+	private boolean contains(T target, Node n)
+	{
+		if(n._next == _tail)
+		{
+			return false;
+		}
+
+		if(n._next._data.equals(target))
+		{
+			return true;
+		}
+
+		return contains(target, n._next);
+	}
 	
+	private Node previous(T target)
+	{
+		return previous(target,_head);
+	}
 	
-	
-	
+	private Node previous(T target, Node n)
+	{
+		if(n._next == _tail)
+		{
+			return null;
+		}
+		if(n._next._data.equals(target))
+		{
+			return n;
+		}
+		
+		return previous(target, n._next);
+		
+	}
+
+
+	public String toString()
+	{
+		if(_head == null) {return null;}
+		String result = "";
+		Node n = _head;
+		while (n != null)
+		{
+			result += String.valueOf(n._data) + "->";
+			n = n._next;
+		}
+		return result;	
+	}
+
+
+
+
 
 
 
