@@ -54,13 +54,47 @@ public class LinkedList <T>
 		n._next = current._next;
 
 		current._next = n;
-		
+
 		_size++;
 	}
-	
-	
-	
-	
+
+	public boolean contains(T target)
+	{
+		return contains(target,_head._next);
+	}
+
+	private boolean contains(T target, Node n)
+	{
+		if(n._next == _tail)
+		{
+			return false;
+		}
+
+		if(n._next._data.equals(target))
+		{
+			return true;
+		}
+
+		return contains(target, n._next);
+	}
+
+
+	public String toString()
+	{
+		if(_head == null) {return null;}
+		String result = "";
+		Node n = _head;
+		while (n != null)
+		{
+			result += String.valueOf(n._data) + "->";
+			n = n._next;
+		}
+		return result;	
+	}
+
+
+
+
 
 
 
