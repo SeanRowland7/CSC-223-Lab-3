@@ -1,6 +1,4 @@
-package utilities.math;
-
-import ExamPractice.DoublyLinkedList.DNode;
+package utilities;
 
 public class LinkedList <T>
 {

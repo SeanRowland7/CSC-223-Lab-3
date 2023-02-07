@@ -1,4 +1,4 @@
-package utilities.math;
+package utilities;
 
 public class EquivalenceClasses 
 {
