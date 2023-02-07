@@ -22,11 +22,13 @@ public class LinkedList <T>
 	public LinkedList(){
 
 		_head = new Node();
+		
 		_tail = new Node(null, null);
 
 		_head._next = _tail;
 
 		_size = 0;
+		
 	}
 
 
@@ -45,17 +47,26 @@ public class LinkedList <T>
 		return _size;
 	}
 
-	public void addToFront(T target)
-	{
-		Node n = new Node(target, _head._next);
-
-		Node current = _head;
-
-		n._next = current._next;
-
-		current._next = n;
-
+	public void addToFront(T target) {
+		
+		insert(target, _head);
+		
+	}
+	
+	public void addToBack(T target) {
+			
+		insert(target, lastValid());
+		
+	}
+	
+	private void insert(T target, Node n) {
+		
+		Node node = new Node(target, n._next);
+		
+		n._next = node;
+		
 		_size++;
+		
 	}
 
 	public boolean contains(T target)
@@ -116,7 +127,20 @@ public class LinkedList <T>
 		}
 		return false;
 	}
-
+	
+	private Node lastValid() {
+		
+		if(isEmpty()) return _head;
+		
+		Node current;
+		
+		for(current = _head._next; current != _tail; current = current._next) {
+			
+		}
+		
+		return current;
+		
+	}
 
 	public String toString()
 	{
