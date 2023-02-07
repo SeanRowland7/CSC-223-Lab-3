@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import ExamPractice.DoublyLinkedList;
+import utilities.LinkedList;
 
 class LinkedListTest {
 
@@ -22,6 +22,18 @@ class LinkedListTest {
 		
 		System.out.println(a.toString());
 
+	}
+	
+	@Test
+	void addToBackTest() {
+		
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		
+		list.addToBack(1);
+		
+		assertTrue(list.contains(1));
+		
+		
 	}
 
 }

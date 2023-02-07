@@ -22,11 +22,13 @@ public class LinkedList <T>
 	public LinkedList(){
 
 		_head = new Node();
+		
 		_tail = new Node(null, null);
 
 		_head._next = _tail;
 
 		_size = 0;
+		
 	}
 
 
@@ -45,19 +47,6 @@ public class LinkedList <T>
 		return _size;
 	}
 
-//	public void addToFront(T target)
-//	{
-//		Node n = new Node(target, _head._next);
-//
-//		Node current = _head;
-//
-//		n._next = _head._next;
-//
-//		current._next = n;
-//		
-//		_size++;
-//	}
-//	
 	public void addToFront(T target) {
 		
 		insert(target, _head);
@@ -65,8 +54,8 @@ public class LinkedList <T>
 	}
 	
 	public void addToBack(T target) {
-		
-		insert(target, previous(null));
+			
+		insert(target, lastValid());
 		
 	}
 	
@@ -119,7 +108,20 @@ public class LinkedList <T>
 		return previous(target, n._next);
 		
 	}
-
+	
+	private Node lastValid() {
+		
+		if(isEmpty()) return _head;
+		
+		Node current;
+		
+		for(current = _head._next; current != _tail; current = current._next) {
+			
+		}
+		
+		return current;
+		
+	}
 
 	public String toString()
 	{
