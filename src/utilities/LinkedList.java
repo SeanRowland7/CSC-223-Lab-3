@@ -77,6 +77,26 @@ public class LinkedList <T>
 
 		return contains(target, n._next);
 	}
+	
+	private Node previous(T target)
+	{
+		return previous(target,_head);
+	}
+	
+	private Node previous(T target, Node n)
+	{
+		if(n._next == _tail)
+		{
+			return null;
+		}
+		if(n._next._data.equals(target))
+		{
+			return n;
+		}
+		
+		return previous(target, n._next);
+		
+	}
 
 
 	public String toString()
