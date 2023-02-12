@@ -6,7 +6,7 @@ public class LinkedList <T>
 	private int _size;
 	protected Node _head, _tail;
 
-	private class Node
+	protected class Node
 	{
 		protected T _data;
 		protected Node _next;
@@ -40,6 +40,9 @@ public class LinkedList <T>
 	public void clear()
 	{
 		_head._next = _tail;
+		
+		_size = 0;
+		
 	}
 
 	public int size()
@@ -47,23 +50,29 @@ public class LinkedList <T>
 		return _size;
 	}
 
-	public void addToFront(T target) {
+	public void addToFront(T element) {
 		
-		insert(target, _head);
+		insert(element, _head);
 		
 	}
 	
 	public void addToBack(T target) {
 			
-		insert(target, lastValid());
+		if(_size == 0) this.addToFront(target);
+		
+		else {
+			
+			insert(target, lastValid());
+			
+		}
 		
 	}
-	
-	private void insert(T target, Node n) {
+	// make this private after testing
+	private void insert(T element, Node left) {
 		
-		Node node = new Node(target, n._next);
+		Node node = new Node(element, left._next);
 		
-		n._next = node;
+		left._next = node;
 		
 		_size++;
 		
@@ -71,17 +80,17 @@ public class LinkedList <T>
 
 	public boolean contains(T target)
 	{
-		return contains(target,_head._next);
+		return contains(target, _head._next);
 	}
 
 	private boolean contains(T target, Node n)
 	{
-		if(n._next == _tail)
+		if(n == _tail)
 		{
 			return false;
 		}
 
-		if(n._next._data.equals(target))
+		if(n._data.equals(target))
 		{
 			return true;
 		}
@@ -117,13 +126,14 @@ public class LinkedList <T>
 			if(previous._next._data.equals(target))
 			{
 				previous._next = previous._next._next;
+				
+				_size--;
+				
 				return true;
 			}
 
 			previous = previous._next;
 
-
-			_size--;
 		}
 		return false;
 	}
@@ -134,7 +144,7 @@ public class LinkedList <T>
 		
 		Node current;
 		
-		for(current = _head._next; current != _tail; current = current._next) {
+		for(current = _head._next; current._next != _tail; current = current._next) {
 			
 		}
 		

@@ -1,4 +1,4 @@
-package utilities.math;
+package utilities;
 
 import java.util.Comparator;
 
@@ -74,7 +74,7 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean contains(T target)
 	{
-		if()
+		return _rest.contains(target);
 	}
 	
 	/**
