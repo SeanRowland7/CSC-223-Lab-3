@@ -74,17 +74,20 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean contains(T target)
 	{
-		return _rest.contains(target);
+
+		if(belongs(target)) return false;
+		
+		if(_canonical.equals(target)) return true;
+		
+		return false;
+
 	}
 	
 	/**
 	 *	Determine whether a given element belongs in the equivalence class by testing only
 	 *  whether the given element is equivalent to the canonical element.
 	 */
-	public boolean belongs(T target)
-	{
-		return _comparator.compare(target,  _canonical) == 0;
-	}
+	public boolean belongs(T target){ return _comparator.compare(target,  _canonical) == 0; }
 	
 	/**
 	 *	Remove a target element from the equivalence class if it is contained.
