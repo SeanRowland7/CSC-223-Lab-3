@@ -2,6 +2,8 @@ package utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.List;
+
 import org.junit.jupiter.api.Test;
 
 import utilities.LinkedList;
@@ -282,18 +284,37 @@ class LinkedListTest {
 		}
 
 	}
-	
+
 	@Test
 	void clearTest() {
-		
+
 		LinkedList<Integer> list = buildInt();
-		
+
 		assertFalse(list.isEmpty());
-		
+
 		list.clear();
-		
+
 		assertTrue(list.isEmpty());
-		
+
 	}
 
+	@Test
+	void reverseTest() {
+
+		LinkedList<Integer> list = new LinkedList<Integer>();
+
+		for(int i = 1; i < 10; i++) {
+
+			list.addToFront(i);
+
+			assertEquals(i, list.size());
+		}
+		assertEquals("null->9->8->7->6->5->4->3->2->1->null->", list.toString());
+		
+		list.reverse();
+		
+		assertEquals("null->1->2->3->4->5->6->7->8->9->null->", list.toString());
+		
+
+	}
 }
