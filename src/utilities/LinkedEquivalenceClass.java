@@ -106,6 +106,8 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean remove(T target)
 	{
+		if(isEmpty()) return false;
+		
 		if(_canonical.equals(target)) return removeCanonical();
 
 		return _rest.remove(target);
@@ -121,7 +123,13 @@ public class LinkedEquivalenceClass<T>
 		
 		
 		// If there are still elements in the equivalence class then promote a new canonical.
-		if(!isEmpty()) _canonical = _rest.getFirst();
+		if(!isEmpty())
+		{	
+			T newCanonical = _rest.getFirst();
+			remove(newCanonical);
+			_canonical = newCanonical;
+		}
+		
 		
 		// Otherwise clear the canonical.
 		else _canonical = null;

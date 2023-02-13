@@ -149,7 +149,6 @@ class LinkedEquivalenceClassTest
 		
 		LinkedEquivalenceClass<Integer> eq1 = new LinkedEquivalenceClass<Integer>(c1);
 			
-		assertTrue(eq1.isEmpty());
 		eq1.add(1);
 		eq1.add(2);	
 		eq1.add(3);	
@@ -174,7 +173,6 @@ class LinkedEquivalenceClassTest
 		eq2.add("apple");	
 		eq2.add("bin");	
 		eq2.add("air");	
-		eq2.add("answer");	
 	
 		assertFalse(eq2.isEmpty());
 		eq2.clear();
@@ -197,14 +195,8 @@ class LinkedEquivalenceClassTest
 		eq1.add(1);
 		eq1.add(2);	
 		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
-		
-		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
-		
-		
+		eq1.clearNonCanonical();
+		assertEquals("{1 | }", eq1.toString());
 		
 		Comparator<String> c2 = new Comparator<String>()
 		{
@@ -218,22 +210,13 @@ class LinkedEquivalenceClassTest
 		};
 		
 		LinkedEquivalenceClass<String> eq2 = new LinkedEquivalenceClass<String>(c2);
-																				
+				
 		eq2.add("apple");	
 		eq2.add("bin");	
 		eq2.add("air");	
-		eq2.add("answer");	
-		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
-		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
-		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
+		eq2.clearNonCanonical();
+		eq2.clearNonCanonical();
+		assertEquals("{apple | }", eq2.toString());
 	}
 
 	@Test
@@ -247,15 +230,31 @@ class LinkedEquivalenceClassTest
 		
 		LinkedEquivalenceClass<Integer> eq1 = new LinkedEquivalenceClass<Integer>(c1);
 			
+		assertEquals(0, eq1.size());
 		eq1.add(1);
 		eq1.add(2);	
-		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
+		eq1.add(3);
+		eq1.add(5);	
+		assertEquals(3, eq1.size());
 		
-		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
+		eq1.demoteAndSetCanonical(7);
+		assertEquals(4, eq1.size());
+		
+		eq1.removeCanonical();
+		assertEquals(3, eq1.size());
+		
+		eq1.removeCanonical();
+		assertEquals(2, eq1.size());
+		
+		eq1.clearNonCanonical();
+		assertEquals(1, eq1.size());
+		
+		eq1.add(9);
+		assertEquals(2, eq1.size());
+		
+		eq1.clear();
+		assertEquals(0, eq1.size());
+		
 		
 		
 		
@@ -272,21 +271,30 @@ class LinkedEquivalenceClassTest
 		
 		LinkedEquivalenceClass<String> eq2 = new LinkedEquivalenceClass<String>(c2);
 																				
-		eq2.add("apple");	
-		eq2.add("bin");	
-		eq2.add("air");	
-		eq2.add("answer");	
+		assertEquals(0, eq2.size());
+		eq2.add("an");
+		eq2.add("wow");	
+		eq2.add("arrow");
+		eq2.add("app");	
+		assertEquals(3, eq2.size());
 		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		eq2.demoteAndSetCanonical("ant");
+		assertEquals(4, eq2.size());
 		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		eq2.removeCanonical();
+		assertEquals(3, eq2.size());
 		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
+		eq2.removeCanonical();
+		assertEquals(2, eq2.size());
+		
+		eq2.clearNonCanonical();
+		assertEquals(1, eq2.size());
+		
+		eq2.add("along");
+		assertEquals(2, eq2.size());
+		
+		eq2.clear();
+		assertEquals(0, eq2.size());
 	}
 
 	@Test
@@ -355,14 +363,22 @@ class LinkedEquivalenceClassTest
 			
 		eq1.add(1);
 		eq1.add(2);	
-		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
+		eq1.add(3);
+		assertTrue(eq1.contains(1));
+		assertFalse(eq1.contains(2));
+		assertTrue(eq1.contains(3));
 		
 		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
+		assertTrue(eq1.contains(1));
+		assertTrue(eq1.contains(5));
 		
+		eq1.clearNonCanonical();
+		assertTrue(eq1.contains(5));
+		assertFalse(eq1.contains(1));
+		assertFalse(eq1.contains(3));
+		
+		eq1.clear();
+		assertFalse(eq1.contains(5));
 		
 		
 		Comparator<String> c2 = new Comparator<String>()
@@ -381,18 +397,22 @@ class LinkedEquivalenceClassTest
 		eq2.add("apple");	
 		eq2.add("bin");	
 		eq2.add("air");	
-		eq2.add("answer");	
 		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		assertTrue(eq2.contains("apple"));
+		assertFalse(eq2.contains("bin"));
+		assertTrue(eq2.contains("air"));
 		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		eq2.demoteAndSetCanonical("allow");
+		assertTrue(eq2.contains("allow"));
+		assertTrue(eq2.contains("apple"));
 		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
+		eq2.clearNonCanonical();
+		assertTrue(eq2.contains("allow"));
+		assertFalse(eq2.contains("apple"));
+		assertFalse(eq2.contains("air"));
+		
+		eq2.clear();
+		assertFalse(eq2.contains("allow"));
 	}
 
 	@Test
@@ -409,14 +429,19 @@ class LinkedEquivalenceClassTest
 		eq1.add(1);
 		eq1.add(2);	
 		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
 		
-		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
+		assertFalse(eq1.belongs(2));
+		assertFalse(eq1.belongs(4));
+		assertFalse(eq1.belongs(24));
 		
+		assertTrue(eq1.belongs(11));
+		assertTrue(eq1.belongs(1));
 		
+		eq1.clear();
+		eq1.add(2);
+		assertFalse(eq1.belongs(11));
+		assertTrue(eq1.belongs(24));
+
 		
 		Comparator<String> c2 = new Comparator<String>()
 		{
@@ -436,16 +461,17 @@ class LinkedEquivalenceClassTest
 		eq2.add("air");	
 		eq2.add("answer");	
 		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		assertFalse(eq2.belongs("bee"));
+		assertFalse(eq2.belongs("danger"));
+
 		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		assertTrue(eq2.belongs("a"));
+		assertTrue(eq2.belongs("anger"));
 		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
+		eq2.clear();
+		eq2.add("boo");
+		assertFalse(eq2.belongs("allow"));
+		assertTrue(eq2.belongs("bare"));
 	}
 
 	@Test
@@ -462,15 +488,17 @@ class LinkedEquivalenceClassTest
 		eq1.add(1);
 		eq1.add(2);	
 		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
 		
-		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
+		assertFalse(eq1.remove(2));
+		
+		eq1.remove(1);
+		assertEquals("{3 | }", eq1.toString());
+		eq1.remove(3);
+		assertTrue(eq1.isEmpty());
 		
 		
 		
+	
 		Comparator<String> c2 = new Comparator<String>()
 		{
 			// All Strings with same first character are 'equivalent'
@@ -489,16 +517,14 @@ class LinkedEquivalenceClassTest
 		eq2.add("air");	
 		eq2.add("answer");	
 		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		assertFalse(eq2.remove("bin"));
 		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		eq2.remove("apple");
+		assertEquals("{answer | air}", eq2.toString());
+		eq2.remove("air");
+		eq2.remove("answer");
+		assertTrue(eq2.isEmpty());
 		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
 	}
 	
 	@Test
@@ -512,16 +538,21 @@ class LinkedEquivalenceClassTest
 		
 		LinkedEquivalenceClass<Integer> eq1 = new LinkedEquivalenceClass<Integer>(c1);
 			
+
 		eq1.add(1);
 		eq1.add(2);	
-		eq1.add(3);	
-		assertEquals("{1 | 3}", eq1.toString());
-		assertEquals(1, eq1.canonical());
+		eq1.add(3);
+		eq1.add(5);	
+		assertEquals("{1 | 5, 3}", eq1.toString());
 		
-		eq1.demoteAndSetCanonical(5);
-		assertEquals("{5 | 1, 3}", eq1.toString());
-		assertEquals(5, eq1.canonical());
+		eq1.removeCanonical();
+		assertEquals("{5 | 3}", eq1.toString());
 		
+		eq1.removeCanonical();
+		assertEquals("{3 | }", eq1.toString());
+		
+		eq1.removeCanonical();
+		assertTrue(eq1.isEmpty());
 		
 		
 		Comparator<String> c2 = new Comparator<String>()
@@ -537,21 +568,22 @@ class LinkedEquivalenceClassTest
 		
 		LinkedEquivalenceClass<String> eq2 = new LinkedEquivalenceClass<String>(c2);
 																				
-		eq2.add("apple");	
-		eq2.add("bin");	
-		eq2.add("air");	
-		eq2.add("answer");	
+		assertEquals(0, eq2.size());
+		eq2.add("an");
+		eq2.add("wow");	
+		eq2.add("arrow");
+		eq2.add("app");	
 		
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		assertEquals("{an | app, arrow}", eq2.toString());
 		
-		eq2.demoteAndSetCanonical("cat");
-		assertEquals("{apple | answer, air}", eq2.toString());
-		assertEquals("apple", eq2.canonical());
+		eq2.removeCanonical();
+		assertEquals("{app | arrow}", eq2.toString());
 		
-		eq2.demoteAndSetCanonical("animal");
-		assertEquals("{animal | apple, answer, air}", eq2.toString());
-		assertEquals("animal", eq2.canonical());
+		eq2.removeCanonical();
+		assertEquals("{arrow | }", eq2.toString());
+		
+		eq2.removeCanonical();
+		assertTrue(eq2.isEmpty());
 	}
 
 	@Test
@@ -575,7 +607,8 @@ class LinkedEquivalenceClassTest
 		assertEquals("{5 | 1, 3}", eq1.toString());
 		assertEquals(5, eq1.canonical());
 		
-		
+		assertFalse(eq1.demoteAndSetCanonical(4));
+
 		
 		Comparator<String> c2 = new Comparator<String>()
 		{
@@ -605,6 +638,8 @@ class LinkedEquivalenceClassTest
 		eq2.demoteAndSetCanonical("animal");
 		assertEquals("{animal | apple, answer, air}", eq2.toString());
 		assertEquals("animal", eq2.canonical());
+		
+		assertFalse(eq2.demoteAndSetCanonical("roar"));
 	}
 	
 	@Test
