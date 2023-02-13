@@ -141,13 +141,17 @@ class EquivalenceClassesTest {
 
 		EquivalenceClasses<Integer> test = new EquivalenceClasses<Integer>(Comparators.intCompare);
 
-		test.add(1);
-
-		assertEquals(0, test.indexOfClass(1));
-
 		test.add(2);
 
-		assertEquals(1, test.indexOfClass(2));
+		assertEquals(0, test.indexOfClass(2));
+
+		test.add(1);
+
+		assertEquals(1, test.indexOfClass(1));
+		
+		assertEquals(0, test.indexOfClass(100));
+		
+		assertEquals(1, test.indexOfClass(33));
 
 	}
 
