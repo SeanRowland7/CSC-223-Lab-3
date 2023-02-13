@@ -151,6 +151,23 @@ public class LinkedList <T>
 		return current;
 		
 	}
+	
+	public void reverse()
+	{
+	    Node current = _head;
+	    Node prev = null;
+	    Node next = null;
+
+	    while (current != null) {
+	        next = current._next;
+	        current._next = prev;
+	        prev = current;
+	        current = next;
+	    }
+
+	    _tail = _head;
+	    _head = prev;
+	}
 
 	public String toString()
 	{
