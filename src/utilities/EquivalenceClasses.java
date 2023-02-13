@@ -23,27 +23,31 @@ public class EquivalenceClasses<T>
 	
 	public boolean add(T element) {
 		
-		for(LinkedEquivalenceClass<T> list : _classes) {
+		int eqIndex = indexOfClass(element);
+		
+		if(eqIndex != -1) {
 			
-			if(list.belongs(element)) {
-				
-				list.add(element);
-				
-				return true;
-				
-			}
+			return _classes.get(eqIndex).add(element);
 			
 		}
 		
-		_classes.add(new LinkedEquivalenceClass<T>(_comparator));
+		LinkedEquivalenceClass<T> list = new LinkedEquivalenceClass<T>(_comparator);
 		
-		return true;
+		_classes.add(list);
+		
+		return list.add(element);
 		
 	}
 	
 	public boolean contains(T element) {
 		
-		return _classes.contains(element);
+		for(LinkedEquivalenceClass<T> list : _classes) {
+			
+			if(list.contains(element)) return true;
+			
+		}
+		
+		return false;
 		
 	}
 	
