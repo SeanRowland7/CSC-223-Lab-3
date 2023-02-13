@@ -9,6 +9,8 @@ class EquivalenceClassesTest {
 	@Test
 	void test() 
 	{
+		
+		
 
 	}
 

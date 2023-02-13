@@ -21,23 +21,25 @@ public class EquivalenceClasses<T>
 	
 	// need to make a new list with a new equivalence class to fit it
 	
-//	public boolean add(T element) {
-//		
-//		for(LinkedEquivalenceClass<T> list : _classes) {
-//			
-//			if(list.belongs(element)) {
-//				
-//				list.add(element);
-//				
-//				return true;
-//				
-//			}
-//			
-//		}
-//		
-//		_classes.add(new LinkedEquivalenceClass<T>());
-//		
-//	}
+	public boolean add(T element) {
+		
+		for(LinkedEquivalenceClass<T> list : _classes) {
+			
+			if(list.belongs(element)) {
+				
+				list.add(element);
+				
+				return true;
+				
+			}
+			
+		}
+		
+		_classes.add(new LinkedEquivalenceClass<T>(_comparator));
+		
+		return true;
+		
+	}
 	
 	public boolean contains(T element) {
 		
