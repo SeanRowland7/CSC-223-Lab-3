@@ -34,7 +34,7 @@ public class LinkedEquivalenceClass<T>
 	/**
 	 *	Returns true if the equivalence class is empty.
 	 */
-	public boolean isEmpty() { return _canonical == null && _rest.isEmpty(); }
+	public boolean isEmpty() { return _canonical == null; }
 	
 	/**
 	 *	Clears all elements from the equivalence class.
@@ -55,7 +55,7 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public int size()
 	{
-		if(_canonical == null) return _rest.size();
+		if(_canonical == null) return 0;
 		return 1 + _rest.size();
 	}
 	
@@ -65,6 +65,17 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean add(T element)
 	{
+		// If there is no canonical element, then add the element as the canonical.
+		if(_canonical == null) 
+		{
+			_canonical = element;
+			return true;
+		}
+		
+		// If the element does not belong, do not add it.
+		if(!belongs(element)) return false;
+			
+		// Otherwise add the element to the equivalence class.
 		_rest.addToFront(element);
 		return true;
 	}
@@ -74,13 +85,14 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean contains(T target)
 	{
-
-		if(belongs(target)) return false;
+		// If the class is empty or the element does not belong, then it is not in the class.
+		if(isEmpty() || !belongs(target)) return false;
 		
+		// Check if the element is the canonical element.
 		if(_canonical.equals(target)) return true;
 		
-		return false;
-
+		// Check if the element is in the rest of the equivalence class.
+		return _rest.contains(target);
 	}
 	
 	/**
@@ -100,13 +112,20 @@ public class LinkedEquivalenceClass<T>
 	}
 	
 	/**
-	 *	Remove the canonical element from the equivalence class.
+	 *	Remove the canonical element from the equivalence class, and promote a new one from the class if another exists.
 	 */
 	public boolean removeCanonical()
 	{
-		if(_canonical == null) return false;
+		// Check if there is a canonical to remove.
+		if(isEmpty()) return false;
 		
-		_canonical = null;
+		
+		// If there are still elements in the equivalence class then promote a new canonical.
+		if(!isEmpty()) _canonical = _rest.getFirst();
+		
+		// Otherwise clear the canonical.
+		else _canonical = null;
+		
 		return true;
 	}
 	
@@ -116,6 +135,8 @@ public class LinkedEquivalenceClass<T>
 	 */
 	public boolean demoteAndSetCanonical(T element)
 	{
+		if(!belongs(element)) return false;
+		
 		_rest.addToFront(_canonical);
 		_canonical = element;
 		return true;

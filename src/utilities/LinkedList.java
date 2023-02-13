@@ -169,15 +169,16 @@ public class LinkedList <T>
 	    _head = prev;
 	}
 
+	public T getFirst() { return _head._next._data; }
+	
 	public String toString()
 	{
-		if(_head == null) {return null;}
 		String result = "";
-		Node n = _head;
-		while (n != null)
+
+		for(Node n = _head._next; n != _tail; n = n._next)
 		{
-			result += String.valueOf(n._data) + "->";
-			n = n._next;
+			result += n._data;
+			if(n._next != _tail) result +=  ", ";
 		}
 		return result;	
 	}
