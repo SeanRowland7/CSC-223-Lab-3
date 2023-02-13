@@ -1,6 +1,15 @@
 
 package utilities;
 
+/**
+* A LinkedList provides a linear data structure with constant time access to the first element.
+*
+* <p>Bugs: None
+*
+* @author Sean Rowland, Mason Taylor, Alex 
+* @date 02/11/2023
+*/
+
 public class LinkedList <T>
 {
 	private int _size;
@@ -31,12 +40,17 @@ public class LinkedList <T>
 		
 	}
 
-
+	/**
+	 *	Returns whether the list is empty.
+	 */
 	public boolean isEmpty()
 	{
 		return _head._next == _tail;
 	}
 
+	/**
+	 *	Clears the list.
+	 */
 	public void clear()
 	{
 		_head._next = _tail;
@@ -45,17 +59,26 @@ public class LinkedList <T>
 		
 	}
 
+	/**
+	 *	Returns the size of the list.
+	 */
 	public int size()
 	{
 		return _size;
 	}
 
+	/**
+	 *	Adds an element to the front of the list.
+	 */
 	public void addToFront(T element) {
 		
 		insert(element, _head);
 		
 	}
 	
+	/**
+	 *	Adds an element to the back of the list.
+	 */
 	public void addToBack(T target) {
 			
 		if(_size == 0) this.addToFront(target);
@@ -67,7 +90,10 @@ public class LinkedList <T>
 		}
 		
 	}
-	// make this private after testing
+
+	/**
+	 *	Allows for easy insertion into the list.
+	 */
 	private void insert(T element, Node left) {
 		
 		Node node = new Node(element, left._next);
@@ -78,6 +104,9 @@ public class LinkedList <T>
 		
 	}
 
+	/**
+	 *	Check is a given element is contained in the list.
+	 */
 	public boolean contains(T target)
 	{
 		return contains(target, _head._next);
@@ -118,6 +147,9 @@ public class LinkedList <T>
 
 	}
 
+	/**
+	 *	Removes a given element from the list.
+	 */
 	public boolean remove(T target)
 	{
 		Node previous = _head;
@@ -152,6 +184,9 @@ public class LinkedList <T>
 		
 	}
 	
+	/**
+	 *	Reverses the linked list.
+	 */
 	public void reverse()
 	{
 	    Node current = _head;
@@ -169,8 +204,14 @@ public class LinkedList <T>
 	    _head = prev;
 	}
 
+	/**
+	 *	Gets the first element in the list.
+	 */
 	public T getFirst() { return _head._next._data; }
 	
+	/**
+	 *	Returns a string representation of the list.
+	 */
 	public String toString()
 	{
 		String result = "";
